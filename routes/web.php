@@ -14,3 +14,5 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::any('test','TestController@test');//测试
+Route::any('/test/shop','TestController@shop');//测试
