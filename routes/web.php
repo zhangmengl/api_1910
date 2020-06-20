@@ -16,6 +16,6 @@ Route::get('/', function () {
 });
 Route::any('test','TestController@test');//测试
 Route::any('/test/shop','TestController@shop');//测试数据库
-Route::any('/phpinfo',function(){
+Route::any('phpinfo',function(){
     phpinfo();
 });//测试php的redis扩展
