@@ -15,4 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::any('test','TestController@test');//测试
-Route::any('/test/shop','TestController@shop');//测试
+Route::any('/test/shop','TestController@shop');//测试数据库
+Route::any('/phpinfo',function(){
+    phpinfo();
+});//测试php的redis扩展
