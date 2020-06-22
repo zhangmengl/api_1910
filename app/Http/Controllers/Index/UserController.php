@@ -54,11 +54,14 @@ class UserController extends Controller
         }else if($password!=$post["password"]){
             return redirect("/index/user/login")->with("password","用户名或密码有误！");
         }
+        Users::where("user_id",$user["user_id"])->update(["login_time"=>time()]);
         session(["user"=>$user]);
         return redirect("/index/user/userCenter");
     }
     //个人中心
     public function userCenter(){
-        return view("index.user");
+        $user_id=session("user")->user_id;
+        $user=Users::where("user_id",$user_id)->first();
+        return view("index.user",compact("user"));
     }
 }

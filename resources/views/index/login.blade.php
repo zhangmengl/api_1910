@@ -1,6 +1,7 @@
 <form action="{{url('/index/user/loginDo')}}" method="post">
     @csrf
     <h2>登录</h2>
+    <b style="color:red">{{session('login')}}</b>
     <table>
         <tr>
             <td>用户名：</td>
