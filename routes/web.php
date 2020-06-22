@@ -19,3 +19,16 @@ Route::any('/test/shop','TestController@shop');//测试数据库
 Route::any('phpinfo',function(){
     phpinfo();
 });//测试php的redis扩展
+
+//前台
+Route::prefix('index/')->group(function () {
+    Route::get("/user/reg","Index\UserController@reg");//前台注册
+    Route::post("/user/regDo","Index\UserController@regDo");//执行注册
+    Route::get("/user/login","Index\UserController@login");//前台登录
+    Route::post("/user/loginDo","Index\UserController@loginDo");//执行登录
+    Route::get("/user/userCenter","Index\UserController@userCenter");//个人中心
+});
+//后台
+Route::prefix('admin')->group(function () {
+
+});
