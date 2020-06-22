@@ -29,6 +29,6 @@ Route::prefix('index/')->group(function () {
     Route::get("/user/userCenter","Index\UserController@userCenter");//个人中心
 });
 //后台
-Route::prefix('admin')->group(function () {
+Route::prefix('admin/')->group(function () {
 
 });
