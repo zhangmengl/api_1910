@@ -1,4 +1,5 @@
 <h2>个人中心</h2>
+欢迎【{{session("user")["user_name"]}}】回来
 <button><a href="{{url('/index/user/index')}}">首页</a></button>
 <hr>
 <table border="1">

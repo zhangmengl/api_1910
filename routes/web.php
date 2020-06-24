@@ -28,7 +28,10 @@ Route::prefix('index/')->group(function () {
     Route::post("/user/loginDo","Index\UserController@loginDo");//执行登录
     Route::middleware("isLogin")->get("/user/userCenter","Index\UserController@userCenter");//个人中心
 });
-//后台
-Route::prefix('admin/')->group(function () {
 
+//接口api
+Route::prefix('api/')->group(function () {
+    Route::post("/user/reg","Api\UserController@reg");//注册
+    Route::post("/user/login","Api\UserController@login");//登录
+    Route::get("/user/userCenter","Api\UserController@userCenter");//个人中心
 });

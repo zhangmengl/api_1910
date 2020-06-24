@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Users extends Model
 {
     //表名
-    protected $table = 'users';
+    protected $table = 'p_users';
     //主键
     protected $primaryKey = 'user_id';
     //时间戳
