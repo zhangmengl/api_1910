@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\Users;
 use App\Model\Token;
+use Illuminate\Support\Facades\Redis;
 
 class UserController extends Controller
 {
@@ -78,13 +79,17 @@ class UserController extends Controller
             //生成token
             $str=$user->user_id.$user->user_name.time();
             $token=substr(md5($str),10,16).substr(md5($str),0,16);
-            //将token和用户id存入数据库
-            $data=[
-                "user_id"=>$user["user_id"],
-                "token"=>$token
-            ];
-            Token::insert($data);
 
+//            //将token和用户id存入数据库
+//            $data=[
+//                "user_id"=>$user["user_id"],
+//                "token"=>$token
+//            ];
+//            Token::insert($data);
+
+            //将token和用户id存入redis
+            Redis::set($token,$user->user_id);
+            Redis::set("name",$post["name"]);
             $response=[
                 "errno"=>"0",
                 "msg"=>"登录成功！",
@@ -101,10 +106,11 @@ class UserController extends Controller
     //个人中心
     public function userCenter(){
         $token=request()->token;//接收token
-        $res=Token::where(["token"=>$token])->first();//检查token是否有效
-        if($res){
-            $user=Users::where("user_id",$res["user_id"])->first();
-            echo $user->user_name."，欢迎来到个人中心！";
+//        $res=Token::where(["token"=>$token])->first();//检查token是否有效
+        $user_id=Redis::get($token);
+        if($user_id){
+            $user=Users::find($user_id);
+            echo Redis::get("name")."，欢迎来到个人中心！";
         }else{
             echo "请登录！";
         }
