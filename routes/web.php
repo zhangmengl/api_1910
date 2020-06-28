@@ -33,5 +33,6 @@ Route::prefix('index/')->group(function () {
 Route::prefix('api/')->group(function () {
     Route::post("/user/reg","Api\UserController@reg");//注册
     Route::post("/user/login","Api\UserController@login");//登录
-    Route::get("/user/userCenter","Api\UserController@userCenter");//个人中心
+    Route::middleware("isPri")->get("/user/userCenter","Api\UserController@userCenter");//个人中心
+    Route::middleware("isPri")->get("/user/order","Api\UserController@order");//我的订单
 });

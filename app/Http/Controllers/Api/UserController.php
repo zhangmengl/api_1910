@@ -112,8 +112,28 @@ class UserController extends Controller
             $user=Users::find($user_id);
             echo Redis::get("name")."，欢迎来到个人中心！";
         }else{
-            echo "请登录！";
+            $response=[
+                "errno"=>"50006",
+                "msg"=>"请先登录！"
+            ];
+            return $response;
         }
 
+    }
+    //我的订单
+    public function order(){
+        $arr=[
+            "1237673575570",
+            "5437675675630",
+            "9837674375630",
+            "6737673545630",
+            "4537672375630"
+        ];
+        $response=[
+            "errno"=>"50008",
+            "msg"=>"请先登录！",
+            "arr"=>$arr
+        ];
+        return $response;
     }
 }
