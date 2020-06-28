@@ -9,7 +9,7 @@ class CheckPri
 {
     /**
      * Handle an incoming request.
-     *
+     *鉴权
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed

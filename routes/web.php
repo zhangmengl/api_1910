@@ -36,3 +36,12 @@ Route::prefix('api/')->group(function () {
     Route::middleware("isPri")->get("/user/userCenter","Api\UserController@userCenter");//个人中心
     Route::middleware("isPri")->get("/user/order","Api\UserController@order");//我的订单
 });
+
+
+//防刷
+Route::prefix('api/')->middleware("AccessFil","isPri")->group(function () {
+    Route::get("/test/a","Api\TestController@a");
+    Route::get("/test/b","Api\TestController@b");
+    Route::get("/test/c","Api\TestController@c");
+    Route::get("/test/d","Api\TestController@d");
+});
