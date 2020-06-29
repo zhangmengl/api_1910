@@ -31,7 +31,7 @@ class TestController extends Controller
         echo "发送的数据：".$data;echo "<br>";
         echo "发送前生成的签名：".$sign;echo "<hr>";
 
-        $b_url="http://www.api1910.com/secret?data=".$data."&sign=".$sign;
+        $b_url="http://www.api1910.com/test/secret?data=".$data."&sign=".$sign;
         echo $b_url;
     }
     //验签接收数据
@@ -49,6 +49,7 @@ class TestController extends Controller
             echo "验签失败";
         }
     }
+    //接口测试
     public function www(){
         $key = '1910';
         //向接口发送数据
@@ -56,11 +57,62 @@ class TestController extends Controller
         $data = 'hello';
         $sign = sha1($data.$key);
 
-        $url="http://www.api.com/api/info?data=".$data."&sign=".$sign;//接口地址
+        $url="http://www.api.com/api/test/info?data=".$data."&sign=".$sign;//接口地址
 //        echo $url;
 
         //php 发起网络请求
         $response = file_get_contents($url);
         echo $response;
+    }
+    //接口传输数据  get
+    public function sendData(){
+        $url="http://www.api.com/api/test/receive?user_name=张萌丽&user_age=18";
+        $response=file_get_contents($url);
+        echo $response;
+    }
+    //接口传输数据  post
+    public function postData(){
+        $key = 'secret';
+        $data = [
+            "user_name" => "zhangmengli",
+            "user_age" => 2001
+        ];
+
+        $str = json_encode($data).$key;
+        $sign = sha1($str);
+
+        $send_data = [
+            'data'  => json_encode($data),
+            'sign'  => $sign
+        ];
+        $url = "http://www.api.com/api/test/receivePost";
+
+        //使用curl    传输post数据
+        //1.实例化
+        $ch = curl_init();
+
+        //2.配置参数
+        curl_setopt($ch,CURLOPT_URL,$url);   //链接地址
+        curl_setopt($ch,CURLOPT_POST,1);   //使用post
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$send_data);   //传输的数据
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);   //通过变量接收响应
+
+        //开启会话（发送请求）
+        $response = curl_exec($ch);
+
+        //检测错误
+        $errno = curl_errno($ch);   //错误码
+        $errmsg = curl_error($ch);
+
+        if($errno){
+            echo '错误码： '.$errno;echo '</br>';
+            var_dump($errmsg);
+            die;
+        }
+
+        curl_close($ch);
+
+        echo $response;
+
     }
 }

@@ -14,14 +14,20 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('test','TestController@test');//测试
-Route::get('/test/shop','TestController@shop');//测试数据库
-Route::get('/test/sign1','TestController@sign1');//验签发送数据
-Route::get('/secret','TestController@secret');//验签接收数据
-Route::get('/test/www','TestController@www');//接口测试
+
 Route::get('phpinfo',function(){
     phpinfo();
 });//测试php的redis扩展
+//测试
+Route::prefix('test')->group(function () {
+    Route::get('/test','TestController@test');//测试
+    Route::get('/shop','TestController@shop');//测试数据库
+    Route::get('/sign1','TestController@sign1');//验签发送数据
+    Route::get('/secret','TestController@secret');//验签接收数据
+    Route::get('/www','TestController@www');//接口测试
+    Route::get('/sendData','TestController@sendData');//接口传输数据  get
+    Route::post('/postData','TestController@postData');//接口传输数据  post
+});
 
 //前台
 Route::prefix('index/')->group(function () {

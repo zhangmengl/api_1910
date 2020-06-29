@@ -19,6 +19,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        "api*"
+        "api*",   //过滤api文件下的所有post,表单令牌
+        "test*"
     ];
 }
