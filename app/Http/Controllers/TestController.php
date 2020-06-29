@@ -49,4 +49,18 @@ class TestController extends Controller
             echo "验签失败";
         }
     }
+    public function www(){
+        $key = '1910';
+        //向接口发送数据
+        //get方式发送
+        $data = 'hello';
+        $sign = sha1($data.$key);
+
+        $url="http://www.api.com/api/info?data=".$data."&sign=".$sign;//接口地址
+//        echo $url;
+
+        //php 发起网络请求
+        $response = file_get_contents($url);
+        echo $response;
+    }
 }

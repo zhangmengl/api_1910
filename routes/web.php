@@ -18,6 +18,7 @@ Route::get('test','TestController@test');//测试
 Route::get('/test/shop','TestController@shop');//测试数据库
 Route::get('/test/sign1','TestController@sign1');//验签发送数据
 Route::get('/secret','TestController@secret');//验签接收数据
+Route::get('/test/www','TestController@www');//接口测试
 Route::get('phpinfo',function(){
     phpinfo();
 });//测试php的redis扩展
