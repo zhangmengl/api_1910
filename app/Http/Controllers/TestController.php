@@ -21,4 +21,32 @@ class TestController extends Controller
         var_dump($info);
 //        echo '<pre>';print_r($info);echo '</pre>';
     }
+
+
+    //验签发送数据
+    public function sign1(){
+        $key='sdlfkjsdlfkjsfsdf';
+        $data='hello world';
+        $sign=sha1($data.$key);   //生成签名
+        echo "发送的数据：".$data;echo "<br>";
+        echo "发送前生成的签名：".$sign;echo "<hr>";
+
+        $b_url="http://www.api1910.com/secret?data=".$data."&sign=".$sign;
+        echo $b_url;
+    }
+    //验签接收数据
+    public function secret(){
+        $key='sdlfkjsdlfkjsfsdf';
+        echo '<pre>';print_r($_GET);echo '</pre>';
+        //接收到数据，验证签名
+        $data=$_GET['data'];   //接收到的数据
+        $sign=$_GET['sign'];   //接收到的签名
+        $local_sign=sha1($data.$key);   //验签算法 与 发送端的生成签名算法保持一致 md5(data+key)
+        echo '本地计算的签名：'.$local_sign;echo '<br>';
+        if($sign==$local_sign){
+            echo "验签通过";
+        }else{
+            echo "验签失败";
+        }
+    }
 }
