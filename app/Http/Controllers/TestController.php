@@ -115,7 +115,7 @@ class TestController extends Controller
         echo $response;
 
     }
-    //接口加密数据
+    //对称加密
     public function encrypt(){
         $data = "长江长江，我是黄河";   //加密明文
         $mothod = "AES-256-CBC";   //加密方法
@@ -161,4 +161,49 @@ class TestController extends Controller
         echo $response;
 
     }
+    //非对称加密
+    public function rsaEncrypt(){
+        $data = "天王盖地虎";   //加密明文
+
+        $pub_content = file_get_contents(storage_path('keys/b_pub.key'));   //公钥路径
+        $pub_key = openssl_get_publickey($pub_content);   //获取公钥内容
+        //使用公钥加密
+        openssl_public_encrypt($data,$enc_data,$pub_key);   // 1、加密的数据 2、加密后的数据 3、公钥内容
+        $base64 = base64_encode($enc_data);//base64编码
+
+        //将数据发送过去
+        $url = "http://www.api.com/api/test/rsaDecrypt?data=".urlencode($base64);
+        //使用get方式
+        $response = file_get_contents($url);
+        echo $response;echo "<br>";
+
+
+        //接收B响应回来的数据
+        $json_arr = json_decode($response,true);   //将json数据转成普通数据
+        echo "<pre>";print_r( $json_arr);echo "</pre>";
+        $enc_data = base64_decode($json_arr["data"]);   //base64解码
+
+        //使用A私钥解密
+        $priv_key = openssl_get_privatekey(file_get_contents(storage_path('keys/a_priv.key')));   //获取A私钥内容
+        openssl_private_decrypt($enc_data,$dec_data,$priv_key);   //1、解密的数据 2、解密后的数据 3、私钥内容
+        echo "B向A响应的数据：".$dec_data;die;
+
+    }
+    //非对称加密  --签名
+    public function rsaSign1(){
+        $data = "Hello World";
+
+        //使用私钥签名
+        $key = openssl_get_privatekey(file_get_contents(storage_path('keys/a_priv.key')));
+        openssl_sign($data,$sign,$key,OPENSSL_ALGO_SHA1);
+
+        $data = urlencode($data);   // url参数处理
+        $sign = urlencode(base64_encode($sign));   // url参数处理
+
+        $url = 'http://www.api.com/api/test/verify1?data='.$data.'&sign='.$sign;
+        $response = file_get_contents($url);
+        echo $response;
+
+    }
+
 }

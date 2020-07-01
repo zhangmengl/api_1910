@@ -27,7 +27,9 @@ Route::prefix('test')->group(function () {
     Route::get('/www','TestController@www');//接口测试
     Route::get('/sendData','TestController@sendData');//接口传输数据  get
     Route::post('/postData','TestController@postData');//接口传输数据  post
-    Route::get('/encrypt','TestController@encrypt');//接口加密数据
+    Route::get('/encrypt','TestController@encrypt');//对称加密
+    Route::get('/rsaEncrypt','TestController@rsaEncrypt');//非对称加密
+    Route::get('/rsaSign1','TestController@rsaSign1');//非对称加密  --签名
 });
 
 //前台
